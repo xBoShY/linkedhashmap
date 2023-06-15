@@ -91,6 +91,16 @@ func (m *Map[K, V]) Pull() (*K, *V) {
 	return k, v
 }
 
+func (m *Map[K, V]) PullKey(key K) *V {
+	if ptr, contains := m.m[key]; contains {
+		delete(m.m, key)
+		ptr.Pull(m.l)
+		return &ptr.Value
+	}
+
+	return nil
+}
+
 func (m *Map[K, V]) Peek() (*K, *V) {
 	return m.l.Peek()
 }

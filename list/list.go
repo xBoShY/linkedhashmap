@@ -92,3 +92,21 @@ func (el *ListElement[K, V]) Push(l *List[K, V]) {
 	l.tail.next = el
 	l.tail = el
 }
+
+func (el *ListElement[K, V]) Pull(l *List[K, V]) {
+	if el.prev != nil {
+		el.prev.next = el.next
+	} else {
+		l.head = el.next
+	}
+
+	if el.next != nil {
+		el.next.prev = el.prev
+	} else {
+		l.tail = el.prev
+	}
+
+	l.len--
+	el.prev = nil
+	el.next = nil
+}
