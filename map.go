@@ -59,11 +59,10 @@ func (m *Map[K, V]) Push(key K, value V) {
 	if ptr, contains := m.m[key]; contains {
 		ptr.Value = value
 		ptr.Push(m.l)
-		return
+	} else {
+		le := m.l.Push(key, value)
+		m.m[key] = le
 	}
-
-	le := m.l.Push(key, value)
-	m.m[key] = le
 	m.setCapacity()
 	m.clean()
 }
